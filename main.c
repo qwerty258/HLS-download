@@ -3,7 +3,9 @@
 #include <string.h>
 #include <sys/stat.h>
 #include <sys/types.h>
+
 #include "http.h"
+#include "ttsdown.h"
 
 int main(int argc, char *argv[])
 {
