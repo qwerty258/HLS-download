@@ -5,7 +5,7 @@ LD = $(CROSS_COMPILE)-gcc
 STRIP = $(CROSS_COMPILE)-strip
 
 ARCH = -msse4.2
-CFLAGS = -std=c11 -O3 $(ARCH) -minline-all-stringops -Wno-unused-result -DVERSION=\"1.3.0\"
+CFLAGS = -std=c11 -O3 $(ARCH) -minline-all-stringops -Wno-unused-result
 LDFLAGS =
 
 OBJS = main.o ttsdown.o http.o utils.o

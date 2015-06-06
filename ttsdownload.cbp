@@ -28,7 +28,6 @@
 		<Compiler>
 			<Add option="-Wall" />
 			<Add option="-std=c11" />
-			<Add option='-DVERSION=&quot;1.0.5&quot;' />
 		</Compiler>
 		<Linker>
 			<Add option="-lcrypto" />
