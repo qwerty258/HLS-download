@@ -2,18 +2,23 @@
 *.o
 *.obj
 
-# Libraries
+# Libraries files
 *.lib
 *.a
 
-# Shared objects (inc. Windows DLLs)
+# Shared objects files
 *.dll
 *.so
 *.so.*
 *.dylib
 
-# Executables
+# Executables files
 *.exe
 *.out
 *.app
-ttsdownload
+
+# Project files
+*.layout
+*.depend
+obj
+bin

@@ -11,7 +11,7 @@ int main(int argc, char *argv[])
 {
 	if(argc != 4)
 	{
-		printf("ttsdownload %s\n\tusage: ttsdownload <course> <set_date> <end_date>\n", VERSION);
+		printf("ttsdownload\n\tusage: ttsdownload <course> <set_date> <end_date>\n");
 		return -1;
 	}
 
@@ -20,7 +20,7 @@ int main(int argc, char *argv[])
 	end_date = atoi(argv[3]);
 	if(!set_date || !end_date)
 	{
-		printf("ttsdownload %s\n\tusage: ttsdownload <course> <set_date> <end_date>\n", VERSION);
+		printf("ttsdownload\n\tusage: ttsdownload <course> <set_date> <end_date>\n");
 		return -1;
 	}
 
