@@ -1,11 +1,8 @@
-This is the buildsystem for the ttsdownload project
+这是ttsdownload项目,基于GPL2.0开源,勿用于盈利目的出售源码或下载的视频
 
-You need to have installed gcc, make, libssl, mkvtoolnix and libc headers.
+你需要安装gcc,make,libssl,运行'make'编译可执行程序
 
-Simply running 'make' will build your application.
+目前支持Linux,Cygwin,MacOSX等支持Posix标准的环境
 
-Building your own application you need to have access to a Linux, BSD, Cygwin or MacOSX system.
-
-Sunshine!
-	Your ttsdownload project
-	E-Mail:625480598@qq.com
+开发人员:ruanyu,ZhengYaoFei
+电子邮箱:625480598@qq.com
