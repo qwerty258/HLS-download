@@ -1,12 +1,15 @@
-#ifndef _utils_h
-#define _utils_h
+/*******************************************************************
+ *  Copyright(c) 2015 Company Name
+ *  All rights reserved.
+ *
+ *  创建日期: 2015-07-25
+ *  修改日期: 2015-07-25
+ *  作者: ruanyu
+ ******************************************************************/
 
-/******************************
-	memstr: 非0结尾数据中搜索字符串
-	@full_data:				数据
-	@full_data_len: 	数据长度
-	@substr:					要搜索的字符串
-*******************************/
+#ifndef _UTILS_H
+#define _UTILS_H
+
 char* memstr(const char* full_data, int full_data_len, const char* substr);
 
-#endif // _utils_h
+#endif // _UTILS_H

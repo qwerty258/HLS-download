@@ -1,6 +1,6 @@
 这是ttsdownload项目,基于GPL2.0开源,勿用于盈利目的出售源码或下载的视频
 
-你需要安装gcc,make,libssl,运行'make'编译可执行程序
+你需要安装gcc,make,libssl,libssl-dev,运行'make'编译可执行程序
 
 目前支持Linux,Cygwin,MacOSX等支持Posix标准的环境
 

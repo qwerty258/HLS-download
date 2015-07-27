@@ -1,11 +1,14 @@
-CROSS_COMPILE =
+# CROSS_COMPILE =
 
 CC = $(CROSS_COMPILE)-gcc
 LD = $(CROSS_COMPILE)-gcc
 STRIP = $(CROSS_COMPILE)-strip
 
-ARCH = -msse4.2
+RM = rm -f
+
+ARCH = -march=core2
 CFLAGS = -std=c11 -O3 $(ARCH) -minline-all-stringops -Wno-unused-result
+# CFLAGS = -std=c11 -O3 $(ARCH) -minline-all-stringops -Wno-unused-result -D_DEBUG
 LDFLAGS =
 
 OBJS = main.o ttsdown.o http.o utils.o
@@ -20,4 +23,4 @@ $(PROG):$(OBJS)
 	$(CC) $(CFLAGS) -c -o $@ $<
 
 clean:
-	rm -vf $(OBJS) $(PROG) *.stackdump
+	$(RM) $(OBJS) $(PROG) *.stackdump
