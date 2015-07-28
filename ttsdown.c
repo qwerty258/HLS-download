@@ -1,11 +1,16 @@
 /*******************************************************************
- *  Copyright(c) 2015 Company Name
+ *  Copyright(c) 2015 ruanyu
  *  All rights reserved.
  *
  *  创建日期: 2015-07-25
  *  修改日期: 2015-07-25
  *  作者: ruanyu
  ******************************************************************/
+#include "config.h"
+#ifdef HAVE_LARGE_FILE
+#undef _FILE_OFFSET_BITS
+#define _FILE_OFFSET_BITS 64
+#endif // HAVE_LARGE_FILE
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -27,7 +32,6 @@ int http_analysis_m3u8(char *m3u8, int m3u8_len, M3u8Info *m3u8info)
 		printf("Error:%s:%s:%d\n", __FILE__, __FUNCTION__, __LINE__);
 		return -1;
 	}
-
 	if(memstr(m3u8, m3u8_len, "AES") != NULL)
 	{
 		m3u8info->video_encrypt = 1;
@@ -36,7 +40,6 @@ int http_analysis_m3u8(char *m3u8, int m3u8_len, M3u8Info *m3u8info)
 	{
 		m3u8info->video_encrypt = 0;
 	}
-
 	int cnt = 0;
 	char *m3u8_line = strtok(m3u8, "\n");
 	if(!m3u8_line)
@@ -63,7 +66,6 @@ int http_download_course(char *course, char *time)
 		printf("Error:%s:%s:%d\n", __FILE__, __FUNCTION__, __LINE__);
 		return -1;
 	}
-
 	char down_url[100];
 	const char *down_referer = "User-Agent: ttsdownload/1.2 (Linux i686)\r\nReferer: http://tts6.tarena.com.cn/scripts/bofang/StrobeMediaPlayback.swf\r\nHost: videotts.it211.com.cn\r\nConnection: keep-alive";
 	sprintf(down_url, "%s/%s%s/%s%s.m3u8", "http://videotts.it211.com.cn", course, time, course, time);
@@ -73,14 +75,12 @@ int http_download_course(char *course, char *time)
 	{
 		return -1;
 	}
-
 	M3u8Info down_m3u8info;
 	if(http_analysis_m3u8(down_m3u8, down_m3u8_len, &down_m3u8info) == -1)
 	{
 		free(down_m3u8);
 		return -1;
 	}
-
 	sprintf(down_url, "%s/%s%s/static.key", "http://videotts.it211.com.cn", course, time);
 	int down_key_len = 0;
 	char *down_key = http_download(down_url, &down_key_len, down_referer);
@@ -89,7 +89,6 @@ int http_download_course(char *course, char *time)
 		free(down_m3u8);
 		return -1;
 	}
-
 	char file_path[FILENAME_MAX];
 	sprintf(file_path, "./%s/%s%s.ts", course, course, time);
 	FILE *fp = fopen(file_path, "wb");
@@ -100,7 +99,6 @@ int http_download_course(char *course, char *time)
 		free(down_key);
 		return -1;
 	}
-
 	for(int i = 0; i < down_m3u8info.video_num; i++)
 	{
 		int down_ts_len = 0;
@@ -132,15 +130,15 @@ int http_download_course(char *course, char *time)
 			return -1;
 		}
 		free(down_ts);
-
 		printf("\rprogress(%s%s):%d/%d", course, time, i + 1, down_m3u8info.video_num);
 		fflush(stdout);
 	}
-
 	printf("\n");
+#ifdef HAVE_MKV_PACK
 	char mkvtool_cmd[200];
 	sprintf(mkvtool_cmd, "mkvmerge -o ./%s/%s%s.mkv --forced-track 0:no --forced-track 1:no -a 1 -d 0 -S -T --no-global-tags --no-chapters %s --track-order 0:0,0:1", course, course, time, file_path);
 	system(mkvtool_cmd);
+#endif // HAVE_MKV_PACK
 	remove(file_path);
 	free(down_m3u8);
 	free(down_key);

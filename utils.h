@@ -1,5 +1,5 @@
 /*******************************************************************
- *  Copyright(c) 2015 Company Name
+ *  Copyright(c) 2015 ruanyu
  *  All rights reserved.
  *
  *  创建日期: 2015-07-25

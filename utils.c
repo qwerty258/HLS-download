@@ -1,5 +1,5 @@
 /*******************************************************************
- *  Copyright(c) 2015 Company Name
+ *  Copyright(c) 2015 ruanyu
  *  All rights reserved.
  *
  *  创建日期: 2015-07-25
@@ -17,17 +17,14 @@ const char* memstr(const char* full_data, int full_data_len, const char* substr)
 	{
 		return NULL;
 	}
-
 	if(*substr == '\0')
 	{
 		return NULL;
 	}
-
 	int sublen = strlen(substr);
 	int i;
 	const char* cur = full_data;
 	int last_possible = full_data_len - sublen + 1;
-
 	for(i = 0; i < last_possible; i++)
 	{
 		if(*cur == *substr)
@@ -39,7 +36,6 @@ const char* memstr(const char* full_data, int full_data_len, const char* substr)
 		}
 		cur++;
 	}
-
 	return NULL;
 }
 

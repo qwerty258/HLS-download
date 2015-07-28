@@ -1,8 +1,10 @@
-这是ttsdownload项目,基于GPL2.0开源,勿用于盈利目的出售源码或下载的视频
+这是ttsdownload项目,基于GPL2.0开源,请勿用于盈利目的
 
-你需要安装gcc,make,libssl,libssl-dev,运行'make'编译可执行程序
+需要安装gcc make libssl libssl-dev,运行'make'编译可执行程序
 
-目前支持Linux,Cygwin,MacOSX等支持Posix标准的环境
+目前仅支持Linux,Cygwin,MacOSX等完美支持Posix标准的编译平台,不支持MinGW,Visual Studio等编译平台
 
-开发人员:ruanyu,ZhengYaoFei
+例子:'ttsdownload esd1410 0101 1231',下载嵌入式1410届的1月1日 - 12月31日的视频
+
+开发人员:ruanyu
 电子邮箱:625480598@qq.com

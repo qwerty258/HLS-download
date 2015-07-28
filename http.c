@@ -1,11 +1,12 @@
 /*******************************************************************
- *  Copyright(c) 2015 Company Name
+ *  Copyright(c) 2015 ruanyu
  *  All rights reserved.
  *
  *  创建日期: 2015-07-25
  *  修改日期: 2015-07-25
  *  作者: ruanyu
  ******************************************************************/
+#include "config.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -28,46 +29,41 @@ char *http_download(const char *url, int *content_len, const char *referer)
 		printf("Error:%s:%s:%d\n", __FILE__, __FUNCTION__, __LINE__);
 		return NULL;
 	}
-
 	int http_socket = socket(AF_INET, SOCK_STREAM, 0);
 	if(http_socket == -1)
 	{
 		printf("Error:%s:%s:%d\n", __FILE__, __FUNCTION__, __LINE__);
 		return NULL;
 	}
-
-	int host = 0;
-	if((host = http_analysis_host(url)) == -1)
+	UrlInfo urlinfo;
+	if(http_analysis_url(url, &urlinfo) == -1)
 	{
 		printf("Error:%s:%s:%d\n", __FILE__, __FUNCTION__, __LINE__);
 		close(http_socket);
 		return NULL;
 	}
-
 	struct sockaddr_in http_sockaddr;
-	http_sockaddr.sin_addr.s_addr = host;
+	http_sockaddr.sin_addr.s_addr = urlinfo.addr;
 	http_sockaddr.sin_family = AF_INET;
 	http_sockaddr.sin_port = htons(80);
 	memset(http_sockaddr.sin_zero, '\0', 8);
-
 	if(connect(http_socket, (struct sockaddr *)&http_sockaddr, sizeof(http_sockaddr)) == -1)
 	{
 		printf("Error:%s:%s:%d\n", __FILE__, __FUNCTION__, __LINE__);
 		close(http_socket);
 		return NULL;
 	}
-
 	char http_request[512];
-	sprintf(http_request, "GET %s HTTP/1.1\r\n%s\r\n\r\n", url, referer);
+	sprintf(http_request, "GET %s HTTP/1.1\r\n%s\r\n\r\n", urlinfo.path, referer);
 	if(send(http_socket, http_request, strlen(http_request), MSG_NOSIGNAL) <= 0)
 	{
 		printf("Error:%s:%s:%d\n", __FILE__, __FUNCTION__, __LINE__);
 		close(http_socket);
 		return NULL;
 	}
-#ifdef _DEBUG
+#ifdef HAVE_DEBUG
 	printf("http_request_size=%d\n", strlen(http_request));
-#endif // _DEBUG
+#endif // HAVE_DEBUG
 	int http_respond_len;
 	char http_respond[2048];
 	if((http_respond_len = recv(http_socket, http_respond, 2048, 0)) <= 0)
@@ -76,7 +72,6 @@ char *http_download(const char *url, int *content_len, const char *referer)
 		close(http_socket);
 		return NULL;
 	}
-
 	RespondInfo respondinfo;
 	if(http_analysis_respond(http_respond, http_respond_len, &respondinfo) == -1)
 	{
@@ -84,14 +79,12 @@ char *http_download(const char *url, int *content_len, const char *referer)
 		close(http_socket);
 		return NULL;
 	}
-
 	if(respondinfo.status != 200)
 	{
 		printf("respond %d\n", respondinfo.status);
 		close(http_socket);
 		return NULL;
 	}
-
 	char *content = malloc(respondinfo.content_len);
 	memcpy(content, respondinfo.body, respondinfo.body_len);
 	*content_len = respondinfo.body_len;
@@ -110,23 +103,20 @@ char *http_download(const char *url, int *content_len, const char *referer)
 	return content;
 }
 
-int http_analysis_host(const char *url)
+int http_analysis_url(const char *url, UrlInfo *urlinfo)
 {
-	if(!url)
+	if(!url || !urlinfo)
 	{
 		return -1;
 	}
-
 	char host[100];
 	struct hostent *host_ent;
-
 	char *host_set = strstr(url, "//");
 	if(!host_set)
 	{
 		return -1;
 	}
 	host_set += 2;
-
 	char *host_end = strstr(host_set, "/");
 	if(!host_end)
 	{
@@ -143,7 +133,9 @@ int http_analysis_host(const char *url)
 	{
 		return -1;
 	}
-	return ((struct in_addr *)(host_ent->h_addr_list[0]))->s_addr;
+	urlinfo->addr = ((struct in_addr *)(host_ent->h_addr_list[0]))->s_addr;
+	urlinfo->path = host_set + (host_end - host_set);
+	return 0;
 }
 
 int http_analysis_respond(const char *respond, int respond_len, RespondInfo *respondinfo)
@@ -157,13 +149,10 @@ int http_analysis_respond(const char *respond, int respond_len, RespondInfo *res
 	{
 		return -1;
 	}
-
 	respondinfo->body = respnod_body;
 	respondinfo->body_len = respond_len - (respnod_body - respond);
-
 	char respnod_temp[respond_len];
 	memcpy(respnod_temp, respond, respond_len);
-
 	char *respnod_line = strtok(respnod_temp, "\r\n");
 	if(!respnod_line)
 	{

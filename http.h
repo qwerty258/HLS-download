@@ -1,5 +1,5 @@
 /*******************************************************************
- *  Copyright(c) 2015 Company Name
+ *  Copyright(c) 2015 ruanyu
  *  All rights reserved.
  *
  *  创建日期: 2015-07-25
@@ -18,9 +18,16 @@ typedef struct
 	int body_len;
 } RespondInfo;
 
+#include <netinet/in.h>
+typedef struct
+{
+	in_addr_t addr;
+	char *path;
+} UrlInfo;
+
 char *http_download(const char *url, int *content_len, const char *referer);
 
-int http_analysis_host(const char *url);
+int http_analysis_url(const char *url, UrlInfo *urlinfo);
 
 int http_analysis_respond(const char *respond, int respond_len, RespondInfo *respondinfo);
 

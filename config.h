@@ -7,18 +7,13 @@
  *  作者: ruanyu
  ******************************************************************/
 
-#ifndef _TTSDOWN_H
-#define _TTSDOWN_H
+#ifndef _CONFIG_H
+#define _CONFIG_H
 
-typedef struct
-{
-	int video_num;
-	char *video_url[400];
-	int video_encrypt;
-} M3u8Info;
+#define HAVE_DEBUG
 
-int http_analysis_m3u8(char *m3u8, int m3u8_len, M3u8Info *m3u8info);
+#define HAVE_MKV_PACK
 
-int http_download_course(char *course, char *time);
+#define HAVE_LARGE_FILE
 
-#endif // _TTSDOWN_H
+#endif // _CONFIG_H
