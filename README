@@ -1,10 +1,9 @@
-这是ttsdownload项目,基于GPL2.0开源,请勿用于盈利目的
+这是HLSDownload项目,基于GPL2.0开源,请勿用于盈利目的
+This is HLSDownload project, based on GPL 2.0.
 
 需要安装gcc make libssl libssl-dev,运行'make'编译可执行程序
+This project need "gcc" "make" "libssl" "libssl-dev", you only have to type make in commend line
 
 目前仅支持Linux,Cygwin,MacOSX等完美支持Posix标准的编译平台,不支持MinGW,Visual Studio等编译平台
 
-例子:'ttsdownload esd1410 0101 1231',下载嵌入式1410届的1月1日 - 12月31日的视频
-
-开发人员:ruanyu
-电子邮箱:625480598@qq.com
+例子:'HLSDownload gsd1410 0101 1231',下载1410的1月1日 - 12月31日的视频
