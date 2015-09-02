@@ -10,6 +10,18 @@
       <Platform>Win32</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\http.c" />
+    <ClCompile Include="..\main.c" />
+    <ClCompile Include="..\ttsdown.c" />
+    <ClCompile Include="..\utils.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\config.h" />
+    <ClInclude Include="..\http.h" />
+    <ClInclude Include="..\ttsdown.h" />
+    <ClInclude Include="..\utils.h" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{99BF1F46-6EF9-4A9C-ACEC-DE92BF977748}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
