@@ -46,27 +46,27 @@ int main(int argc, char *argv[])
 #endif // _MSC_VER
     if(argc != 4)
     {
-        printf("ttsdownload\n\tusage: ttsdownload <course> <set_date> <end_date>\n");
+        printf("ttsdownload\n\tusage: ttsdownload <course> <start_date> <end_date>\n");
 #ifdef _MSC_VER
         WSAFree();
 #endif // _MSC_VER
         return -1;
     }
-    int set_date, end_date;
-    set_date = atoi(argv[2]);
+    int start_date, end_date;
+    start_date = atoi(argv[2]);
     end_date = atoi(argv[3]);
-    if(!set_date || !end_date)
+    if(!start_date || !end_date)
     {
-        printf("ttsdownload\n\tusage: ttsdownload <course> <set_date> <end_date>\n");
+        printf("ttsdownload\n\tusage: ttsdownload <course> <start_date> <end_date>\n");
 #ifdef _MSC_VER
         WSAFree();
 #endif // _MSC_VER
         return -1;
     }
-    while(set_date <= end_date)
+    while(start_date <= end_date)
     {
         char course[20];
-        sprintf(course, "%s%04d", argv[1], set_date);
+        sprintf(course, "%s%04d", argv[1], start_date);
 #ifdef _MSC_VER
         CreateDirectoryA(course, NULL);
 #else
@@ -79,7 +79,7 @@ int main(int argc, char *argv[])
         {
             remove(course);
         }
-        set_date++;
+        start_date++;
     }
 #ifdef _MSC_VER
     WSAFree();
