@@ -12,10 +12,10 @@
 
 typedef struct
 {
-	int status;
-	int content_len;
-	char *body;
-	int body_len;
+    int status;
+    int content_len;
+    char *body;
+    int body_len;
 } RespondInfo;
 
 #ifdef _MSC_VER
@@ -31,8 +31,8 @@ typedef uint32_t in_addr_t;
 
 typedef struct
 {
-	in_addr_t addr;
-	char *path;
+    in_addr_t addr;
+    char *path;
 } UrlInfo;
 
 char *http_download(const char *url, int *content_len, const char *referer);

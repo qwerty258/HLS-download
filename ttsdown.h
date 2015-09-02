@@ -12,9 +12,9 @@
 
 typedef struct
 {
-	int video_num;
-	char *video_url[400];
-	int video_encrypt;
+    int video_num;
+    char *video_url[400];
+    int video_encrypt;
 } M3u8Info;
 
 int http_analysis_m3u8(char *m3u8, int m3u8_len, M3u8Info *m3u8info);
