@@ -18,7 +18,17 @@ typedef struct
 	int body_len;
 } RespondInfo;
 
+#ifdef _MSC_VER
+
+#include <stdint.h>
+typedef uint32_t in_addr_t;
+
+#else
+
 #include <netinet/in.h>
+
+#endif // _MSC_VER
+
 typedef struct
 {
 	in_addr_t addr;

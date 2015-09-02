@@ -11,13 +11,23 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <unistd.h>
-#include <netdb.h>
 #include <sys/stat.h>
 #include <sys/types.h>
+
+#ifdef _MSC_VER
+
+#include <WinSock2.h>
+#define close closesocket
+
+#else
+
+#include <unistd.h>
+#include <netdb.h>
 #include <sys/socket.h>
 #include <arpa/inet.h>
 #include <netinet/in.h>
+
+#endif // _MSC_VER
 
 #include "http.h"
 #include "utils.h"
@@ -55,7 +65,12 @@ char *http_download(const char *url, int *content_len, const char *referer)
 	}
 	char http_request[512];
 	sprintf(http_request, "GET %s HTTP/1.1\r\n%s\r\n\r\n", urlinfo.path, referer);
-	if(send(http_socket, http_request, strlen(http_request), MSG_NOSIGNAL) <= 0)
+#ifdef _MSC_VER
+    // which is identical to MSG_NOSIGNAL?
+    if(send(http_socket, http_request, strlen(http_request), 0) <= 0)
+#else
+    if(send(http_socket, http_request, strlen(http_request), MSG_NOSIGNAL) <= 0)
+#endif // _MSC_VER
 	{
 		printf("Error:%s:%s:%d\n", __FILE__, __FUNCTION__, __LINE__);
 		close(http_socket);
@@ -151,9 +166,13 @@ int http_analysis_respond(const char *respond, int respond_len, RespondInfo *res
 	}
 	respondinfo->body = respnod_body;
 	respondinfo->body_len = respond_len - (respnod_body - respond);
-	char respnod_temp[respond_len];
+    // VS didn't support this grammar
+	// char respnod_temp[respond_len];
+    char* respnod_temp = (char*)malloc(respond_len);
 	memcpy(respnod_temp, respond, respond_len);
 	char *respnod_line = strtok(respnod_temp, "\r\n");
+    free(respnod_temp);
+    respnod_temp = NULL;
 	if(!respnod_line)
 	{
 		return -1;

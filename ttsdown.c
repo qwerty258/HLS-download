@@ -15,11 +15,21 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <dirent.h>
-#include <unistd.h>
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <openssl/aes.h>
+
+#ifdef _MSC_VER
+
+#include <Windows.h>
+
+#else
+
+#include <dirent.h>
+#include <unistd.h>
+
+#endif // _MSC_VER
+
 
 #include "http.h"
 #include "utils.h"
