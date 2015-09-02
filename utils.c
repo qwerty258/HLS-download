@@ -21,7 +21,7 @@ const char* memstr(const char* full_data, int full_data_len, const char* substr)
     {
         return NULL;
     }
-    int sublen = strlen(substr); // this is a BUG, if there is 0x00 in subbin, the substr is incorrect!!!
+    int sublen = strlen(substr); // this is a BUG, if there is 0x00 in substr, the sublen is incorrect!!!
     int i;
     const char* cur = full_data;
     int last_possible = full_data_len - sublen + 1;
