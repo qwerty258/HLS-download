@@ -7,10 +7,6 @@
  *  作者: ruanyu
  ******************************************************************/
 #include "config.h"
-#ifdef HAVE_LARGE_FILE
-#undef _FILE_OFFSET_BITS
-#define _FILE_OFFSET_BITS 64
-#endif // HAVE_LARGE_FILE
 
 #include <stdio.h>
 #include <stdlib.h>

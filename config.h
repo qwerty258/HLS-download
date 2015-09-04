@@ -14,6 +14,4 @@
 
 #define HAVE_MKV_PACK
 
-#define HAVE_LARGE_FILE
-
 #endif // _CONFIG_H

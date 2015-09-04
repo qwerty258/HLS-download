@@ -7,7 +7,7 @@ STRIP = $(CROSS_COMPILE)strip
 RM = rm -f
 
 ARCH = -march=native
-CFLAGS = -std=c11 -O3 $(ARCH) -minline-all-stringops -Wno-unused-result
+CFLAGS = -std=c11 -O3 $(ARCH) -minline-all-stringops -Wno-unused-result -D_FILE_OFFSET_BITS=64
 # CFLAGS = -std=c11 -O3 $(ARCH) -minline-all-stringops -Wno-unused-result -D_DEBUG
 LDFLAGS = -L./mbedtls/library
 
