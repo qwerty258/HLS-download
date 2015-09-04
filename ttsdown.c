@@ -17,7 +17,7 @@
 #include <string.h>
 #include <sys/stat.h>
 #include <sys/types.h>
-#include <openssl/aes.h>
+#include <mbedtls/aes.h>
 
 #ifdef _MSC_VER
 
@@ -115,10 +115,10 @@ int http_download_course(char *course, char *time)
         char *down_ts = http_download(down_m3u8info.video_url[i], &down_ts_len, down_referer);
         if(down_m3u8info.video_encrypt == 1)
         {
-            AES_KEY aes_key;
+            mbedtls_aes_context aes_context;
             unsigned char aes_iv[16];
             memset(aes_iv, '\0', 16);
-            if(AES_set_decrypt_key((unsigned char *)down_key, 128, &aes_key) < 0)
+            if(mbedtls_aes_setkey_dec(&aes_context, (unsigned char *)down_key, 128) < 0)
             {
                 printf("Error:%s:%s:%d\n", __FILE__, __FUNCTION__, __LINE__);
                 free(down_m3u8);
@@ -127,7 +127,7 @@ int http_download_course(char *course, char *time)
                 return -1;
             }
             char *aes_ts = malloc(down_ts_len);
-            AES_cbc_encrypt((unsigned char *)down_ts, (unsigned char *)aes_ts, down_ts_len, &aes_key, aes_iv, AES_DECRYPT);
+            mbedtls_aes_crypt_cbc(&aes_context, MBEDTLS_AES_DECRYPT, down_ts_len, aes_iv, (unsigned char *)down_ts, (unsigned char *)aes_ts);
             free(down_ts);
             down_ts = aes_ts;
         }
