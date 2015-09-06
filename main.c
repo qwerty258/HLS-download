@@ -38,7 +38,6 @@ void WSAFree(void)
 
 #endif // _MSC_VER
 
-
 int main(int argc, char *argv[])
 {
 #ifdef _MSC_VER

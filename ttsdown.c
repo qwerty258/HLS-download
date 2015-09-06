@@ -6,18 +6,18 @@
  *  修改日期: 2015-07-25
  *  作者: ruanyu
  ******************************************************************/
-#include "config.h"
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <sys/stat.h>
 #include <sys/types.h>
-#include <mbedtls/aes.h>
+#include "aes.h"
 
 #ifdef _MSC_VER
 
 #include <Windows.h>
+#include <shellapi.h>
 
 #else
 
@@ -140,12 +140,27 @@ int http_download_course(char *course, char *time)
         fflush(stdout);
     }
     printf("\n");
+
 #ifdef HAVE_MKV_PACK
-    char mkvtool_cmd[200];
-    sprintf(mkvtool_cmd, "mkvmerge -o ./%s/%s%s.mkv --forced-track 0:no --forced-track 1:no -a 1 -d 0 -S -T --no-global-tags --no-chapters %s --track-order 0:0,0:1", course, course, time, file_path);
-    system(mkvtool_cmd);
+
+#if defined(__CYGWIN__)
+
+char mkvtool_cmd[200];
+sprintf(mkvtool_cmd, "-o ./%s/%s%s.mkv --forced-track 0:no --forced-track 1:no -a 1 -d 0 -S -T --no-global-tags --no-chapters %s --track-order 0:0,0:1", course, course, time, file_path);
+ShellExecuteA(NULL, "open", ".//mkvmerge.exe", mkvtool_cmd, "", SW_HIDE);
+remove(file_path);
+
+#else
+
+char mkvtool_cmd[200];
+sprintf(mkvtool_cmd, "mkvmerge -o ./%s/%s%s.mkv --forced-track 0:no --forced-track 1:no -a 1 -d 0 -S -T --no-global-tags --no-chapters %s --track-order 0:0,0:1", course, course, time, file_path);
+system(mkvtool_cmd);
+remove(file_path);
+
+#endif
+
 #endif // HAVE_MKV_PACK
-    remove(file_path);
+
     free(down_m3u8);
     free(down_key);
     fclose(fp);
