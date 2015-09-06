@@ -21,10 +21,6 @@
 # Project Files
 *.layout
 *.depend
-*.cbp
-*.sln
-*.dsw
-*.vcproj
 
 # Windows Explorer
 Thumbs.db
