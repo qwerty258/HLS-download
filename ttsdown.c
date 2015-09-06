@@ -143,19 +143,19 @@ int http_download_course(char *course, char *time)
 
 #ifdef HAVE_MKV_PACK
 
-#if defined(__CYGWIN__)
+#if defined(__CYGWIN__) || defined(_MSC_VER)
 
-char mkvtool_cmd[200];
-sprintf(mkvtool_cmd, "-o ./%s/%s%s.mkv --forced-track 0:no --forced-track 1:no -a 1 -d 0 -S -T --no-global-tags --no-chapters %s --track-order 0:0,0:1", course, course, time, file_path);
-ShellExecuteA(NULL, "open", ".//mkvmerge.exe", mkvtool_cmd, "", SW_HIDE);
-remove(file_path);
+    char mkvtool_cmd[200];
+    sprintf(mkvtool_cmd, "-o ./%s/%s%s.mkv --forced-track 0:no --forced-track 1:no -a 1 -d 0 -S -T --no-global-tags --no-chapters %s --track-order 0:0,0:1", course, course, time, file_path);
+    ShellExecuteA(NULL, "open", ".//mkvmerge.exe", mkvtool_cmd, "", SW_HIDE);
+    remove(file_path);
 
 #else
 
-char mkvtool_cmd[200];
-sprintf(mkvtool_cmd, "mkvmerge -o ./%s/%s%s.mkv --forced-track 0:no --forced-track 1:no -a 1 -d 0 -S -T --no-global-tags --no-chapters %s --track-order 0:0,0:1", course, course, time, file_path);
-system(mkvtool_cmd);
-remove(file_path);
+    char mkvtool_cmd[200];
+    sprintf(mkvtool_cmd, "mkvmerge -o ./%s/%s%s.mkv --forced-track 0:no --forced-track 1:no -a 1 -d 0 -S -T --no-global-tags --no-chapters %s --track-order 0:0,0:1", course, course, time, file_path);
+    system(mkvtool_cmd);
+    remove(file_path);
 
 #endif
 
