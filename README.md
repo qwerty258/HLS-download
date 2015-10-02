@@ -7,7 +7,7 @@ This project need "gcc" "make", you only have to type make in commend line
 例子:'HLSDownload gsd1410 0101 1231',下载1410的1月1日 - 12月31日的视频
 
 #Moved to new repo:
-https://github.com/qwerty258/HLSDownload_old
+https://github.com/ruantu/ttsdownload
 
 #old repo:
 https://github.com/qwerty258/HLSDownload_veryfirst_version
